@@ -1,3 +1,7 @@
+resource "aws_cloudfront_origin_access_identity" "origin_access_identity" {
+  comment = "Youtube S3 Cloudfront"
+}
+
 resource "aws_cloudfront_distribution" "s3_distribution" {
   origin {
     domain_name = aws_s3_bucket.youtube_data_bucket.bucket_regional_domain_name
@@ -34,6 +38,11 @@ resource "aws_cloudfront_distribution" "s3_distribution" {
 
   restrictions {
     geo_restriction {
+      restriction_type = "none"
     }
+  }
+
+  viewer_certificate {
+    cloudfront_default_certificate = true
   }
 }
